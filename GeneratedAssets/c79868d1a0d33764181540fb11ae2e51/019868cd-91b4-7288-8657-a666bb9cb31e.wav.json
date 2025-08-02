@@ -1,0 +1,13 @@
+{
+    "asset": "c79868d1a0d33764181540fb11ae2e51",
+    "fileName": "019868cd-91b4-7288-8657-a666bb9cb31e.wav",
+    "prompt": "A sound effect for when the player successfully clears the puzzle by aligning all shapes correctly.",
+    "negativePrompt": "",
+    "model": "0ee39b33-2893-4e0f-8c46-0e0bdd4eda85",
+    "modelName": "Text to Sound",
+    "customSeed": -1,
+    "w3CTraceId": "e0a05a6e7793432cb8d6ef01997e3624",
+    "duration": 10.0,
+    "autoTrim": false,
+    "hasReference": false
+}
