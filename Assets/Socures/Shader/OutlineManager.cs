@@ -1,62 +1,53 @@
 // 2025-08-02 AI-Tag
 // This was created with the help of Assistant, a Unity Artificial Intelligence product.
 
-using System;
-using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class OutlineManager : MonoBehaviour
 {
-    public Material outlineMaterial; // 아웃라인 효과를 위한 Material
-    public string outlineTag = "OutlineObject"; // 아웃라인 효과를 적용할 태그
-    public LayerMask outlineLayer; // 아웃라인 효과를 적용할 레이어
-
-    private Renderer[] renderers;
-
-    void Start()
+    // 특정 레이어에서 오브젝트를 찾는 메서드
+    public List<GameObject> FindObjectsInLayer(LayerMask layer)
     {
-        // 태그를 기준으로 오브젝트 찾기
-        GameObject[] objectsWithTag = GameObject.FindGameObjectsWithTag(outlineTag);
+        // 결과를 저장할 리스트
+        List<GameObject> objectsInLayer = new List<GameObject>();
 
-        foreach (GameObject obj in objectsWithTag)
-        {
-            ApplyOutline(obj);
-        }
-
-        // 레이어를 기준으로 오브젝트 찾기
-        foreach (GameObject obj in FindObjectsInLayer(outlineLayer))
-        {
-            ApplyOutline(obj);
-        }
-    }
-
-    void ApplyOutline(GameObject obj)
-    {
-        Renderer renderer = obj.GetComponent<Renderer>();
-        if (renderer != null)
-        {
-            // 기존 Material 배열에 아웃라인 Material 추가
-            Material[] materials = renderer.materials;
-            Material[] newMaterials = new Material[materials.Length + 1];
-            materials.CopyTo(newMaterials, 0);
-            newMaterials[materials.Length] = outlineMaterial;
-            renderer.materials = newMaterials;
-        }
-    }
-
-    GameObject[] FindObjectsInLayer(LayerMask layer)
-    {
-        GameObject[] allObjects = FindObjectsOfType<GameObject>();
-        System.Collections.Generic.List<GameObject> objectsInLayer = new System.Collections.Generic.List<GameObject>();
+        // 씬에 존재하는 모든 GameObject를 가져옴
+        GameObject[] allObjects = GameObject.FindGameObjectsWithTag("OutlineObjectTag");
 
         foreach (GameObject obj in allObjects)
         {
-            if (((1 << obj.layer) & layer) != 0)
+            // 오브젝트가 해당 레이어에 속하는지 확인
+            if (((1 << obj.layer) & layer.value) != 0)
             {
                 objectsInLayer.Add(obj);
+                Debug.Log($"Found object: {obj.name} in layer {obj.layer}");
             }
         }
 
-        return objectsInLayer.ToArray();
+        return objectsInLayer;
+    }
+
+    // 테스트용 메서드
+    public void TestFindObjectsInLayer()
+    {
+        // 예시: "Outline"이라는 레이어를 찾음
+        LayerMask outlineLayer = LayerMask.NameToLayer("OutlineObjectLayer");
+
+        if (outlineLayer == -1)
+        {
+            Debug.LogError("Layer 'Outline' does not exist!");
+            return;
+        }
+
+        List<GameObject> foundObjects = FindObjectsInLayer(outlineLayer);
+
+        //Debug.Log($"Total objects found in layer: {foundObjects.Count}");
+    }
+
+    // Unity의 Start 메서드에서 테스트 실행
+    void Start()
+    {
+        TestFindObjectsInLayer();
     }
 }
