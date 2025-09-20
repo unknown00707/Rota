@@ -1,15 +1,20 @@
 
 using System;
+using System.Collections;
 using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 
 public class ObjSetting : MonoBehaviour
 {
+    private static WaitForSeconds _waitForSeconds3 = new WaitForSeconds(3f);
     public GameObject[] bigObjs; // Grounp OBj
     public MeshRenderer[][] objs; // 
     public int curID = 0;
+    public int pastID = 0;
     public LayerMask layerMask;
+
+    public bool isChangeID = false;
 
     void Awake()
     {
@@ -95,34 +100,40 @@ public class ObjSetting : MonoBehaviour
     // Seleted - Num
     void OnClickNumCul()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
-            curID = 0;
-        else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
-            curID = 1;
-        else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
-            curID = 2;
-        else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
-            curID = 3;
-        else if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
-            curID = 4;
-        else if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
-            curID = 5;
-        else if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
-            curID = 6;
+        
+            if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+                curID = 0;
+            else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+                curID = 1;
+            else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+                curID = 2;
+            else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
+                curID = 3;
+            else if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
+                curID = 4;
+            else if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
+                curID = 5;
+            else if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
+                curID = 6;
 
-        if (curID >= bigObjs.Length)
-            curID = 0;
-        else if (curID < 0)
-            curID = bigObjs.Length;
+            if (curID >= bigObjs.Length)
+                curID = 0;
+            else if (curID < 0)
+                curID = bigObjs.Length;
+  
     }
 
+    void OnClickNum()
+    {
+        pastID = curID;
+    }
 
     public void BigObjsInit()
     {
-        if(GameObject.Find("RedG") == true)
+        if (GameObject.Find("RedG") == true)
             bigObjs[0] = GameObject.Find("RedG");
-        if(GameObject.Find("GreenG") == true)
+        if (GameObject.Find("GreenG") == true)
             bigObjs[1] = GameObject.Find("GreenG");
-        
+
     }
 }

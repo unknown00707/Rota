@@ -4,10 +4,12 @@ public class RotatObjSub : MonoBehaviour
 {
     public bool isRota = false;
     public int arr = 0;
-    public int rotationSpeedAmount = 25; // 속
+    public int pastArr = 0;
+    public int rotationSpeedAmount = 5; // 속
     public ObjSetting objSetting;
     public GameObject[] bigObjs; // Grounp OBj
     public int curID = 0;
+    public int pastID = 0;
 
     void Awake()
     {
@@ -16,12 +18,13 @@ public class RotatObjSub : MonoBehaviour
     void Update()
     {
         curID = objSetting.curID;
+        pastID = objSetting.pastID;
     }
     void FixedUpdate()
     {
         RotaCul();
     }
-   // Rotation
+    // Rotation
     void OnEClick()
     {
         RoataObj(-1); // -1 mean right
@@ -43,13 +46,24 @@ public class RotatObjSub : MonoBehaviour
     {
         if (isRota)
         {
-            if (bigObjs[curID].GetComponent<ObjPersonalID>().currentAngle == bigObjs[curID].GetComponent<ObjPersonalID>().targetAngle)
+            if (bigObjs[curID].GetComponent<ObjPersonalID>().isSameAngle)
                 isRota = false;
-            else if (bigObjs[curID].GetComponent<ObjPersonalID>().currentAngle != bigObjs[curID].GetComponent<ObjPersonalID>().targetAngle)
+            else if (!bigObjs[curID].GetComponent<ObjPersonalID>().isSameAngle)
             {
                 bigObjs[curID].GetComponent<ObjPersonalID>().currentAngle += arr * rotationSpeedAmount;
                 bigObjs[curID].transform.rotation = Quaternion.Euler(0, 0, bigObjs[curID].GetComponent<ObjPersonalID>().currentAngle);
             }
         }
+
+        if (!bigObjs[pastID].GetComponent<ObjPersonalID>().isSameAngle)
+        {
+            bigObjs[pastID].GetComponent<ObjPersonalID>().currentAngle += pastArr * rotationSpeedAmount;
+            bigObjs[pastID].transform.rotation = Quaternion.Euler(0, 0, bigObjs[pastID].GetComponent<ObjPersonalID>().currentAngle);
+        }
+    }
+    
+    void OnClickNum()
+    {
+        pastArr = arr;
     }
 }

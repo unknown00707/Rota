@@ -603,8 +603,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -6}
+  m_LocalRotation: {x: 0.0885499, y: -0.38092166, z: 0.036678568, w: 0.91962624}
+  m_LocalPosition: {x: 7, y: 2.5, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -738,9 +738,11 @@ MonoBehaviour:
   - {fileID: 1990506888}
   - {fileID: 1229338476}
   curID: 0
+  pastID: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 128
+  isChangeID: 0
 --- !u!114 &598200348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -755,10 +757,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RotatObjSub
   isRota: 0
   arr: 0
-  rotationSpeedAmount: 10
+  rotationSpeedAmount: 5
   objSetting: {fileID: 598200347}
   bigObjs: []
   curID: 0
+  pastID: 0
 --- !u!1 &661279491
 GameObject:
   m_ObjectHideFlags: 0
@@ -1678,6 +1681,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObjPersonalID
   targetAngle: 0
   currentAngle: 0
+  localBigObjID: 0
+  isSameAngle: 0
 --- !u!1 &1242103901
 GameObject:
   m_ObjectHideFlags: 0
@@ -2239,6 +2244,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObjPersonalID
   targetAngle: 0
   currentAngle: 0
+  localBigObjID: 0
+  isSameAngle: 0
 --- !u!1 &2072063245
 GameObject:
   m_ObjectHideFlags: 0
