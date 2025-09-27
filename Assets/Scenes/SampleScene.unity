@@ -734,6 +734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7bbd991b65b080448148f7bf3f2883a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjSetting
+  rotatObjSub: {fileID: 598200348}
   bigObjs:
   - {fileID: 1990506888}
   - {fileID: 1229338476}
@@ -761,6 +762,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RotatObjSub
   isRota: 0
   arr: 0
+  arrRota: 0
   pastArr: 0
   rotationSpeedAmount: 5
   objSetting: {fileID: 598200347}

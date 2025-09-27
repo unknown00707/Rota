@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class ObjSetting : MonoBehaviour
 {
+    public RotatObjSub rotatObjSub;
     public GameObject[] bigObjs; // Grounp OBj
     public MeshRenderer[][] objs; // 
     public int curID = 0;
@@ -26,6 +27,7 @@ public class ObjSetting : MonoBehaviour
 
     void Awake()
     {
+        rotatObjSub = gameObject.GetComponent<RotatObjSub>();
         BigObjsInit();
         curID = 0;
         //CharildInit();
@@ -95,6 +97,7 @@ public class ObjSetting : MonoBehaviour
     void CulNameCompareObj(int name)
     {
         OnClickNum();
+        rotatObjSub.OnClickNum();
         curID = name;
     }
 

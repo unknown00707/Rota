@@ -1,18 +1,21 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class RotatObjSub : MonoBehaviour
 {
+    public ObjSetting objSetting;
     public bool isRota = false;
     public int arr = 0;
+    public float arrRota = 0;
     public int pastArr = 0;
     public int rotationSpeedAmount = 5; // 속
-    public ObjSetting objSetting;
     public GameObject[] bigObjs; // Grounp OBj
     public int curID = 0;
     public int pastID = 0;
 
     void Awake()
     {
+        objSetting = gameObject.GetComponent<ObjSetting>();
         bigObjs = objSetting.bigObjs;
     }
     void Update()
@@ -39,6 +42,15 @@ public class RotatObjSub : MonoBehaviour
     {
         arr = arrValue;
         bigObjs[curID].GetComponent<ObjPersonalID>().targetAngle += 90 * arr;
+
+        if(Mathf.Abs(bigObjs[curID].GetComponent<ObjPersonalID>().targetAngle) - Mathf.Abs(bigObjs[curID].GetComponent<ObjPersonalID>().currentAngle) > 0)
+            arrRota = Mathf.Sign(bigObjs[curID].GetComponent<ObjPersonalID>().targetAngle);
+        else
+            arrRota = -Mathf.Sign(bigObjs[curID].GetComponent<ObjPersonalID>().currentAngle);
+
+        if (arrRota == 0)
+            arrRota = arr;
+        
         isRota = true;
     }
 
@@ -50,7 +62,7 @@ public class RotatObjSub : MonoBehaviour
                 isRota = false;
             else if (!bigObjs[curID].GetComponent<ObjPersonalID>().isSameAngle)
             {
-                bigObjs[curID].GetComponent<ObjPersonalID>().currentAngle += arr * rotationSpeedAmount;
+                bigObjs[curID].GetComponent<ObjPersonalID>().currentAngle += (int)arrRota * rotationSpeedAmount;
                 bigObjs[curID].transform.rotation = Quaternion.Euler(0, 0, bigObjs[curID].GetComponent<ObjPersonalID>().currentAngle);
             }
         }
@@ -62,8 +74,8 @@ public class RotatObjSub : MonoBehaviour
         }
     }
     
-    void OnClickNum()
+    public void OnClickNum()
     {
-        pastArr = arr;
+        pastArr = (int)arrRota;
     }
 }
