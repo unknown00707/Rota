@@ -11,7 +11,6 @@ public class ObjSetting : MonoBehaviour
 {
     public RotatObjSub rotatObjSub;
     public GameObject[] bigObjs; // Grounp OBj
-    public MeshRenderer[][] objs; // 
     public int curID = 0;
     public int pastID = 0;
     public LayerMask bigLayerMask;
@@ -21,56 +20,73 @@ public class ObjSetting : MonoBehaviour
 
     public float rayDistance = 20f;
     private const int MAX_HITS = 10;
-    private RaycastHit[] hitResults = new RaycastHit[MAX_HITS];
+    private readonly RaycastHit[] hitResults = new RaycastHit[MAX_HITS];
 
 
 
     void Awake()
     {
         rotatObjSub = gameObject.GetComponent<RotatObjSub>();
-        BigObjsInit();
         curID = 0;
-        //CharildInit();
-        //ObjInillayColorInit();
+
+        BigObjsInit();
+
     }
 
     void Update()
     {
         if (!reciveGameEnd)
         {
-            OnPointerDown();
-            OnClickNumCul();
+            OnPointerDown(); // mouse select
+            OnClickNumCul(); // Num select
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space)) // game end fouction
             DetectObjAllForEnd();
+
+
+        if (Input.GetKeyDown(KeyCode.UpArrow)) // Test
+            ChangeColorObj(true);
+
+
+        if (Input.GetKeyDown(KeyCode.DownArrow)) // Test
+            ChangeColorObj(false);
+
+
     }
 
-    void FixedUpdate()
+    //Init
+    public void BigObjsInit()
     {
+        if (GameObject.Find("RedG") == true)
+            bigObjs[0] = GameObject.Find("RedG");
+        if (GameObject.Find("GreenG") == true)
+            bigObjs[1] = GameObject.Find("GreenG");
 
     }
 
+    
     // Selected - color
-    void CheckMySelected(int myIDList)
+    void ChangeColorObj(bool isOffSmaillObj)
     {
-        ChangeColorObj(myIDList); // color Change
-        curID = myIDList;
-    }
+        Color orignColor;
 
-    void ChangeColorObj(int index)
-    {
-        foreach (MeshRenderer[] i in objs)
+        for (int i = 0; i < bigObjs.Length; i++)
         {
-            i[index].material.color = new Color(0.5f, 0.5f, 0.5f, 0.5f); // child color change to gray
-        }
-    }
+            if (i != curID)
+            {
+                MeshRenderer[] allMeshRenderers = bigObjs[i].GetComponentsInChildren<MeshRenderer>();
+                orignColor = allMeshRenderers[i].material.color;
+                float targetAlpha;
 
-    void ObjInillayColorInit()
-    {
-        for (int i = 0; i < objs.Length; i++)
-        {
-            //colors[i] = objs[i].GetComponent<MeshRenderer>().material.color;
+                if (isOffSmaillObj)
+                    targetAlpha = 0.2f;
+                else
+                    targetAlpha = 1f;
+
+                foreach (MeshRenderer mesh in allMeshRenderers)
+                    mesh.material.color = new Color(orignColor.r, orignColor.g, orignColor.b, targetAlpha); // child color change to gray   
+            }
         }
     }
 
@@ -99,23 +115,6 @@ public class ObjSetting : MonoBehaviour
         OnClickNum();
         rotatObjSub.OnClickNum();
         curID = name;
-    }
-
-    void CharildInit()
-    {
-        for (int i = 0; i < bigObjs.Length; i++)
-        {
-            var charilds = bigObjs[i].GetComponentsInChildren<MeshRenderer>();
-            // foreach (var ij in charilds)
-            // {
-            //     objs[i].Append(ij); 
-            // }
-            Transform[] tr = bigObjs[i].GetComponentsInChildren<Transform>();
-            foreach (Transform t in tr)
-            {
-                print(t.gameObject.name);
-            }
-        }
     }
 
 
@@ -148,15 +147,6 @@ public class ObjSetting : MonoBehaviour
     void OnClickNum()
     {
         pastID = curID;
-    }
-
-    public void BigObjsInit()
-    {
-        if (GameObject.Find("RedG") == true)
-            bigObjs[0] = GameObject.Find("RedG");
-        if (GameObject.Find("GreenG") == true)
-            bigObjs[1] = GameObject.Find("GreenG");
-
     }
 
 
@@ -202,10 +192,19 @@ public class ObjSetting : MonoBehaviour
                         }
                     }
                 }
+                else
+                {
+                    Debug.Log($"총 {hitCount}개의 오브젝트가 감지되었습니다. (위치: {i} , {j})");
+                }
             }
         }
 
         toGameEndPossibe = points.Count <= 0;
-        print(points + " / " + toGameEndPossibe);
+
+        foreach (string item in points)
+        {
+            Debug.Log(item); 
+        }
+        print(toGameEndPossibe);
     }
 }
